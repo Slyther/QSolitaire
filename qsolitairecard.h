@@ -12,7 +12,7 @@ public:
     char type, number, color;
     QPoint offset;
     QPixmap img, backimg;
-    bool isflipped;
+    bool islocked;
     void flip();
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);

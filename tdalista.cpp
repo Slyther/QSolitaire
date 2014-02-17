@@ -138,6 +138,8 @@ int TDALISTA<nvalue>::remove(int pos)
         posit++;
     }
     noded<nvalue>* todelete = pointer->next;
+    if(ending == todelete)
+        ending = pointer;
     pointer->next = todelete->next;
     if(current == todelete)
         current = beginning;

@@ -13,27 +13,26 @@ QSolitaireCard::QSolitaireCard(char type, char number, QPoint offset, QWidget* p
     char strings[14] = {':', '/', 'c', 'a', 'r', 'd', 's', '/', number, type, '.', 'p', 'n', 'g'};
     QString imgname = QString::fromUtf8(strings);
     img = QPixmap(imgname);
-    backimg = QPixmap(":/cards/CardGlow.png");
-    isflipped = true;
-    this->setPixmap(img);
+    backimg = QPixmap(":/cards/CardBack.png");
+    islocked = true;
+    this->setPixmap(backimg);
     this->move(offset);
 }
 
 void QSolitaireCard::flip()
 {
-    if(isflipped){
-        this->setPixmap(backimg);
-        isflipped = false;
-    }else{
+    if(islocked){
         this->setPixmap(img);
-        isflipped = true;
+        islocked = false;
+    }else{
+        this->setPixmap(backimg);
+        islocked = true;
     }
 }
 
 void QSolitaireCard::mousePressEvent(QMouseEvent *event)
 {
     offset = event->pos();
-    flip();
 }
 
 void QSolitaireCard::mouseMoveEvent(QMouseEvent *event)

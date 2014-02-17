@@ -15,15 +15,15 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     noded.cpp \
-    tdacola.cpp \
     tdalista.cpp \
-    qsolitairecard.cpp
+    qsolitairecard.cpp \
+    qcardlist.cpp
 
 HEADERS  += mainwindow.h \
     noded.h \
-    tdacola.h \
     tdalista.h \
-    qsolitairecard.h
+    qsolitairecard.h \
+    qcardlist.h
 
 FORMS    += mainwindow.ui
 

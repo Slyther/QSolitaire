@@ -2,9 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "tdacola.h"
 #include "tdalista.h"
 #include "qsolitairecard.h"
+#include "qcardlist.h"
 
 namespace Ui {
 class MainWindow;
