@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     for(int i = 6; i < 13; i++){
         Decks.get(i)->populate();
+        //Decks.get(i)->updateList();
     }
 }
 

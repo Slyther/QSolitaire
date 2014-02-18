@@ -62,3 +62,12 @@ void QCardList::populate()
         cardList->end()->flip();
     }
 }
+void QCardList::updateList()
+{
+    if(cardList->end()->islocked)
+        cardList->end()->flip();
+    for(int i = 0; i < cardList->size(); i++){
+        //cardList->get(i)->relations = this->relations;
+        //cardList->get(i)->parentlist = this->cardList;
+    }
+}

@@ -18,6 +18,7 @@ public:
     void mousePressEvent(QMouseEvent *event);
     void dropEvent(QDropEvent *event);
     void populate();
+    void updateList();
 };
 
 #endif // QCARDLIST_H
