@@ -16,7 +16,6 @@ public:
     TDALISTA<QCardList*> *relations;
     TDALISTA<QSolitaireCard*> *cardList;
     void mousePressEvent(QMouseEvent *event);
-    void dropEvent(QDropEvent *event);
     void populate();
     void updateList();
 };

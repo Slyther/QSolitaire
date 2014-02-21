@@ -17,6 +17,7 @@ QCardList::QCardList(char type, QPoint offset, QWidget *parent) : QLabel()
 
 void QCardList::mousePressEvent(QMouseEvent *event)
 {
+    event->type();
     if(type == 'M'){
         if(cardList->size() != 0){
             cardList->end()->offset.setX(relations->get(0)->offset.x());
@@ -41,12 +42,6 @@ void QCardList::mousePressEvent(QMouseEvent *event)
         }
         relations->get(0)->updateList();
     }
-}
-
-void QCardList::dropEvent(QDropEvent *event)
-{
-
-    event->accept();
 }
 
 void QCardList::populate()

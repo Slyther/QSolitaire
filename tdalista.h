@@ -18,6 +18,7 @@ public:
     int indexOf(nvalue elem);
     int empty();
     bool hasnext();
+    int swap(int t1, int t2);
 
 private:
     int length;

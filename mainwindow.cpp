@@ -7,6 +7,8 @@
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QLayout>
+#include <time.h>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -60,6 +62,7 @@ void MainWindow::startGame()
             Decks.get(i)->relations->add(Decks.get(j));
         }
     }
+    shuffle(MainDeck);
     for(int i = 6; i < 13; i++){
         Decks.get(i)->populate();
         Decks.get(i)->updateList();
@@ -86,18 +89,62 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     }
 }
 
-//WIP, no usar F2/New Game.
 void MainWindow::on_actionNew_Game_triggered()
 {
-    for(int i = Decks.size()-1; i >= 0; i--){
-        for(int j = Decks.get(i)->cardList->size()-1; j >= 0; j-- ){
-            QSolitaireCard* tmp = Decks.get(i)->cardList->get(j);
+    for(int i = 1; i < Decks.size(); i++){
+        for(int j = Decks.get(i)->cardList->size()-1; j >= 0; j--){
+            Decks.get(i)->cardList->end()->offset = Decks.get(0)->offset;
+            Decks.get(i)->cardList->end()->move(Decks.get(i)->cardList->get(j)->offset);
+            Decks.get(i)->cardList->end()->raise();
+            if(!Decks.get(i)->cardList->end()->islocked)
+                Decks.get(i)->cardList->end()->flip();
+            Decks.get(0)->cardList->add(Decks.get(i)->cardList->end());
             Decks.get(i)->cardList->remove(j);
-            delete tmp;
         }
-        QCardList* tmp2 = Decks.get(i);
-        Decks.remove(i);
-        delete tmp2;
+        Decks.get(i)->updateList();
+        for(int i = 0; i < Decks.get(0)->cardList->size(); i++){
+            Decks.get(0)->cardList->get(i)->relations = Decks.get(0)->relations;
+            Decks.get(0)->cardList->get(i)->parentList = Decks.get(0);
+        }
     }
-    startGame();
+    shuffle(Decks.get(0));
+    Decks.get(0)->raise();
+    for(int i = 6; i < 13; i++){
+        Decks.get(i)->relations->insert(0, Decks.get(0));
+        Decks.get(i)->populate();
+        Decks.get(i)->updateList();
+    }
+}
+
+void MainWindow::shuffle(QCardList* toShuffle)
+{
+    int s = toShuffle->cardList->size();
+    srand(time(NULL));
+    for (int i=s; i>1; i--)
+        toShuffle->cardList->swap(i-1, rand() % i);
+}
+
+//WIP, not implemented into game yet but should work.
+void MainWindow::checkGameStatus()
+{
+    int result = 0;
+    for(int i = 0; i < Decks.size(); i++){
+        if(Decks.get(i)->type == 'A'){
+            if(Decks.get(i)->cardList->size() >= 13){
+                result++;
+            }
+        }
+    }
+    if(result >= 4){
+        QMessageBox *msg = new QMessageBox(QMessageBox::Question, "You've Won!", "Do you want to start a new game?", QMessageBox::Yes | QMessageBox::No, this, Qt::Popup);
+        msg->setWindowModality(Qt::NonModal);
+        msg->setDefaultButton(QMessageBox::Yes);
+        int ret = msg->exec();
+        int yes = 16384;
+        if(ret == yes){
+            on_actionNew_Game_triggered();
+            return;
+        }
+        this->close();
+    }
 }

@@ -5,6 +5,7 @@
 #include "tdalista.h"
 #include "qsolitairecard.h"
 #include "qcardlist.h"
+#include <cstdlib>
 
 namespace Ui {
 class MainWindow;
@@ -19,7 +20,8 @@ public:
     ~MainWindow();
     TDALISTA<QCardList*> Decks;
     void startGame();
-
+    void shuffle(QCardList* toShuffle);
+    void checkGameStatus();
 private:
     Ui::MainWindow *ui;
 protected:

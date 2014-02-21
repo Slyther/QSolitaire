@@ -188,3 +188,17 @@ int TDALISTA<nvalue>::indexOf(nvalue elem)
     }
     return -1;
 }
+
+template<typename nvalue>
+int TDALISTA<nvalue>::swap(int t1, int t2)
+{
+    if(t1 < 0 || t1 >= size() || t2 < 0 || t2 >= size())
+        return -1;
+    nvalue t1tmp = get(t1);
+    nvalue t2tmp = get(t2);
+    insert(t1, t2tmp);
+    remove(t1+1);
+    insert(t2, t1tmp);
+    remove(t2+1);
+    return 0;
+}

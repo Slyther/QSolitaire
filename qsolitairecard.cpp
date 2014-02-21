@@ -37,6 +37,8 @@ void QSolitaireCard::mouseDoubleClickEvent(QMouseEvent *event)
     {
         if(this != parentList->cardList->end())
             return;
+        if(this->islocked)
+            return;
         for(int i = 0; i < relations->size(); i++){
             if(relations->get(i)->type == 'A'){
                 std::map <char, int> chars;
@@ -107,6 +109,9 @@ void QSolitaireCard::mouseMoveEvent(QMouseEvent *event)
 
 void QSolitaireCard::mouseReleaseEvent(QMouseEvent *event)
 {
+    if(this->islocked)
+        return;
+    event->type();
     int currentx = mapToParent(offset).x();
     int currenty = mapToParent(offset).y();
     for(int i = 0; i < relations->size(); i++){
