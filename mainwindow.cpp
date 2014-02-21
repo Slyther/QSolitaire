@@ -31,26 +31,26 @@ void MainWindow::startGame()
 {
     char types[4] = {'C', 'D', 'H', 'S'};
     char numbers[13] = {'K', 'Q', 'J', '0', '9', '8', '7', '6', '5', '4', '3', '2', 'A'};
-    QCardList* MainDeck = new QCardList('M', QPoint(36, 19), ui->centralWidget);
+    QCardList* MainDeck = new QCardList('M', QPoint(36, 19), ui->centralWidget, this);
     for(int i = 0; i < 4; i++){
         for(int j = 0; j < 13; j++){
-            MainDeck->cardList->add(new QSolitaireCard(types[i], numbers[j], MainDeck->offset, ui->centralWidget));
+            MainDeck->cardList->add(new QSolitaireCard(types[i], numbers[j], MainDeck->offset, ui->centralWidget, this));
         }
     }
     MainDeck->raise();
-    QCardList* OffDeck = new QCardList('O', QPoint(145, 19), ui->centralWidget);
+    QCardList* OffDeck = new QCardList('O', QPoint(145, 19), ui->centralWidget, this);
     MainDeck->relations->add(OffDeck);
     char DeckTypes[10] = {'M', 'O', 'A', '1', '2', '3', '4', '5', '6', '7'};
     int var = 361;
     Decks.add(MainDeck);
     Decks.add(OffDeck);
     for(int i = 0; i < 4; i++){
-        Decks.add(new QCardList(DeckTypes[2], QPoint(var, 19), ui->centralWidget));
+        Decks.add(new QCardList(DeckTypes[2], QPoint(var, 19), ui->centralWidget, this));
         var += 108;
     }
     var = 37;
     for(int i = 3; i < 10; i++){
-        Decks.add(new QCardList(DeckTypes[i], QPoint(var, 145), ui->centralWidget));
+        Decks.add(new QCardList(DeckTypes[i], QPoint(var, 145), ui->centralWidget, this));
         var += 108;
     }
     for(int i = 1; i < 13; i++){

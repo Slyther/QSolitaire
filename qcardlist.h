@@ -7,12 +7,14 @@
 #include "tdalista.h"
 #include "qsolitairecard.h"
 
+class MainWindow;
 class QCardList : public QLabel
 {
 public:
-    QCardList(char type, QPoint offset, QWidget *parent);
+    QCardList(char type, QPoint offset, QWidget *parent, MainWindow* window);
     char type;
     QPoint offset, lockedcardoffset, releasedcardoffset;
+    MainWindow* parentWindow;
     TDALISTA<QCardList*> *relations;
     TDALISTA<QSolitaireCard*> *cardList;
     void mousePressEvent(QMouseEvent *event);

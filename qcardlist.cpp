@@ -1,10 +1,12 @@
 #include "qcardlist.h"
+#include "mainwindow.h"
 #include <cstdlib>
 
-QCardList::QCardList(char type, QPoint offset, QWidget *parent) : QLabel()
+QCardList::QCardList(char type, QPoint offset, QWidget *parent, MainWindow *window) : QLabel()
 {
     this->type = type;
     this->offset = offset;
+    this->parentWindow = window;
     this->cardList = new TDALISTA<QSolitaireCard*>();
     this->relations = new TDALISTA<QCardList*>();
     this->lockedcardoffset = QPoint(0, 7);
@@ -41,6 +43,7 @@ void QCardList::mousePressEvent(QMouseEvent *event)
             raise();
         }
         relations->get(0)->updateList();
+        parentWindow->checkGameStatus();
     }
 }
 

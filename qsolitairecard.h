@@ -6,13 +6,15 @@
 #include <QMouseEvent>
 #include "tdalista.h"
 
+class MainWindow;
 class QCardList;
 class QSolitaireCard : public QLabel
 {
 public:
-    QSolitaireCard(char type, char number, QPoint offset, QWidget *parent);
+    QSolitaireCard(char type, char number, QPoint offset, QWidget *parent, MainWindow* window);
     char type, number, color;
     QPoint offset, savedoffset;
+    MainWindow *parentWindow;
     QPixmap img, backimg;
     bool islocked;
     void flip();

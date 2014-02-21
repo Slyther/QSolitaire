@@ -1,9 +1,11 @@
 #include "qsolitairecard.h"
 #include "qcardlist.h"
+#include "mainwindow.h"
 
-QSolitaireCard::QSolitaireCard(char type, char number, QPoint offset, QWidget* parent) : QLabel()
+QSolitaireCard::QSolitaireCard(char type, char number, QPoint offset, QWidget* parent, MainWindow *window) : QLabel()
 {
     this->type = type;
+    this->parentWindow = window;
     this->number = number;
     this->setParent(parent);
     if(type == 'H' || type == 'D')
@@ -55,6 +57,7 @@ void QSolitaireCard::mouseDoubleClickEvent(QMouseEvent *event)
                         parentList->updateList();
                         relations->get(i)->updateList();
                         savedoffset = offset;
+                        parentWindow->checkGameStatus();
                         return;
                     }
                     continue;
@@ -69,6 +72,7 @@ void QSolitaireCard::mouseDoubleClickEvent(QMouseEvent *event)
                          parentList->updateList();
                          relations->get(i)->updateList();
                          savedoffset = offset;
+                         parentWindow->checkGameStatus();
                          return;
                     }
                     continue;
@@ -140,6 +144,7 @@ void QSolitaireCard::mouseReleaseEvent(QMouseEvent *event)
                     }
                     parentList->updateList();
                     relations->get(i)->updateList();
+                    parentWindow->checkGameStatus();
                     return;
                 }
                 if(relations->get(i)->type == 'A' && this->number == 'A'){
@@ -152,6 +157,7 @@ void QSolitaireCard::mouseReleaseEvent(QMouseEvent *event)
                     parentList->cardList->remove(parentList->cardList->size()-1);
                     parentList->updateList();
                     relations->get(i)->updateList();
+                    parentWindow->checkGameStatus();
                     return;
                 }
                 break;
@@ -182,6 +188,7 @@ void QSolitaireCard::mouseReleaseEvent(QMouseEvent *event)
                     }
                     parentList->updateList();
                     relations->get(i)->updateList();
+                    parentWindow->checkGameStatus();
                     return;
                 }
             }else{
@@ -196,6 +203,7 @@ void QSolitaireCard::mouseReleaseEvent(QMouseEvent *event)
                     parentList->cardList->remove(parentList->cardList->size()-1);
                     parentList->updateList();
                     relations->get(i)->updateList();
+                    parentWindow->checkGameStatus();
                     return;
                 }
             }
