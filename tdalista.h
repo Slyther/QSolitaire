@@ -15,6 +15,7 @@ public:
     int add(nvalue elem);
     int remove(int pos);
     int insert(int pos, nvalue elem);
+    int indexOf(nvalue elem);
     int empty();
     bool hasnext();
 

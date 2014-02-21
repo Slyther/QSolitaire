@@ -4,9 +4,9 @@
 #include <QLabel>
 #include <QPoint>
 #include <QMouseEvent>
-//#include "tdalista.h"
-//#include "qcardlist.h"
+#include "tdalista.h"
 
+class QCardList;
 class QSolitaireCard : public QLabel
 {
 public:
@@ -16,10 +16,12 @@ public:
     QPixmap img, backimg;
     bool islocked;
     void flip();
-    //TDALISTA<QCardList*> *relations;
+    TDALISTA<QCardList*> *relations;
+    QCardList *parentList;
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+    void mouseDoubleClickEvent(QMouseEvent *event);
 };
 
 #endif // QSOLITAIRECARD_H

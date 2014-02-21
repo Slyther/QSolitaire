@@ -176,3 +176,15 @@ int TDALISTA<nvalue>::empty(noded<nvalue>** temp)
         return 0;
     return empty(&tmp);
 }
+
+template<typename nvalue>
+int TDALISTA<nvalue>::indexOf(nvalue elem)
+{
+    int n = -1;
+    for(int i = 0; i < length; i++){
+        n = i;
+        if(elem == get(i))
+            return n;
+    }
+    return -1;
+}

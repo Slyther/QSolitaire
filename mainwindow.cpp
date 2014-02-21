@@ -17,6 +17,16 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowIcon(QIcon(":/icon.png"));
     this->setFixedSize(800, 535);
     this->setWindowFlags(this->windowFlags() | Qt::MSWindowsFixedSizeDialogHint);
+    startGame();
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::startGame()
+{
     char types[4] = {'C', 'D', 'H', 'S'};
     char numbers[13] = {'K', 'Q', 'J', '0', '9', '8', '7', '6', '5', '4', '3', '2', 'A'};
     QCardList* MainDeck = new QCardList('M', QPoint(36, 19), ui->centralWidget);
@@ -29,7 +39,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QCardList* OffDeck = new QCardList('O', QPoint(145, 19), ui->centralWidget);
     MainDeck->relations->add(OffDeck);
     char DeckTypes[10] = {'M', 'O', 'A', '1', '2', '3', '4', '5', '6', '7'};
-    TDALISTA<QCardList*> Decks;
     int var = 361;
     Decks.add(MainDeck);
     Decks.add(OffDeck);
@@ -53,21 +62,42 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     for(int i = 6; i < 13; i++){
         Decks.get(i)->populate();
-        //Decks.get(i)->updateList();
+        Decks.get(i)->updateList();
     }
 }
 
-MainWindow::~MainWindow()
+void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-    delete ui;
+    if ( event->button() == Qt::RightButton ){
+        QMouseEvent genericEvent(QEvent::MouseButtonDblClick, QPoint(0, 0), Qt::LeftButton, Qt::LeftButton, 0);
+        for(int i = 0; i < Decks.size(); i++){
+            if(Decks.get(i)->type == 'M' || Decks.get(i)->type == 'A')
+                continue;
+            int tmp = Decks.get(i)->cardList->size();
+            if(tmp > 0)
+                Decks.get(i)->cardList->end()->mouseDoubleClickEvent(&genericEvent);
+            if(Decks.get(i)->cardList->size() < tmp){
+                if(i == 0)
+                    i--;
+                else
+                    i = 0;
+            }
+        }
+    }
 }
 
-void MainWindow::dragMoveEvent(QDragMoveEvent *event)
+//WIP, no usar F2/New Game.
+void MainWindow::on_actionNew_Game_triggered()
 {
-    //event->accept();
-}
-
-void MainWindow::dropEvent(QDropEvent *event)
-{
-    //event->accept();
+    for(int i = Decks.size()-1; i >= 0; i--){
+        for(int j = Decks.get(i)->cardList->size()-1; j >= 0; j-- ){
+            QSolitaireCard* tmp = Decks.get(i)->cardList->get(j);
+            Decks.get(i)->cardList->remove(j);
+            delete tmp;
+        }
+        QCardList* tmp2 = Decks.get(i);
+        Decks.remove(i);
+        delete tmp2;
+    }
+    startGame();
 }

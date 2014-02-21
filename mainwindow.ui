@@ -284,6 +284,9 @@
    <property name="text">
     <string>New Game</string>
    </property>
+   <property name="shortcut">
+    <string>F2</string>
+   </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

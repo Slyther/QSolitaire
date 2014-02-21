@@ -1,7 +1,7 @@
 #include "qcardlist.h"
 #include <cstdlib>
 
-QCardList::QCardList(char type, QPoint offset, QWidget *parent)
+QCardList::QCardList(char type, QPoint offset, QWidget *parent) : QLabel()
 {
     this->type = type;
     this->offset = offset;
@@ -19,7 +19,8 @@ void QCardList::mousePressEvent(QMouseEvent *event)
 {
     if(type == 'M'){
         if(cardList->size() != 0){
-            cardList->end()->offset = relations->get(0)->offset;
+            cardList->end()->offset.setX(relations->get(0)->offset.x());
+            cardList->end()->offset.setY(relations->get(0)->offset.y());
             cardList->end()->move(cardList->end()->offset);
             cardList->end()->flip();
             cardList->end()->raise();
@@ -28,6 +29,8 @@ void QCardList::mousePressEvent(QMouseEvent *event)
         }else{
             while(relations->get(0)->cardList->size()!= 0){
                 relations->get(0)->cardList->end()->offset = offset;
+                relations->get(0)->cardList->end()->offset.setX(offset.x());
+                relations->get(0)->cardList->end()->offset.setY(offset.y());
                 relations->get(0)->cardList->end()->move(relations->get(0)->cardList->end()->offset);
                 relations->get(0)->cardList->end()->flip();
                 relations->get(0)->cardList->end()->raise();
@@ -36,6 +39,7 @@ void QCardList::mousePressEvent(QMouseEvent *event)
             }
             raise();
         }
+        relations->get(0)->updateList();
     }
 }
 
@@ -49,14 +53,15 @@ void QCardList::populate()
 {
     if(isdigit(type)){
         int torepeat = atoi(&type);
-        QPoint extraoffset;
+        QPoint extraoffset(0, 0);
         for(int i = 0; i < torepeat; i++){
-        relations->get(0)->cardList->end()->offset = offset + extraoffset;
-        relations->get(0)->cardList->end()->move(relations->get(0)->cardList->end()->offset);
-        relations->get(0)->cardList->end()->raise();
-        cardList->add(relations->get(0)->cardList->end());
-        relations->get(0)->cardList->remove(relations->get(0)->cardList->size()-1);
-        extraoffset += lockedcardoffset;
+            relations->get(0)->cardList->end()->offset.setX((offset.x()) + (extraoffset.x()));
+            relations->get(0)->cardList->end()->offset.setY((offset.y()) + (extraoffset.y()));
+            relations->get(0)->cardList->end()->move(relations->get(0)->cardList->end()->offset);
+            relations->get(0)->cardList->end()->raise();
+            cardList->add(relations->get(0)->cardList->end());
+            relations->get(0)->cardList->remove(relations->get(0)->cardList->size()-1);
+            extraoffset += lockedcardoffset;
         }
         relations->remove(0);
         cardList->end()->flip();
@@ -64,10 +69,12 @@ void QCardList::populate()
 }
 void QCardList::updateList()
 {
+    if(cardList->size()==0)
+        return;
     if(cardList->end()->islocked)
         cardList->end()->flip();
     for(int i = 0; i < cardList->size(); i++){
-        //cardList->get(i)->relations = this->relations;
-        //cardList->get(i)->parentlist = this->cardList;
+        cardList->get(i)->relations = this->relations;
+        cardList->get(i)->parentList = this;
     }
 }

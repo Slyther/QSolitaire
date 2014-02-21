@@ -17,12 +17,15 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    TDALISTA<QCardList*> Decks;
+    void startGame();
 
 private:
     Ui::MainWindow *ui;
 protected:
-    virtual void dragMoveEvent(QDragMoveEvent *event);
-    virtual void dropEvent(QDropEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+private slots:
+    void on_actionNew_Game_triggered();
 };
 
 #endif // MAINWINDOW_H
